@@ -58,16 +58,29 @@ public class JoystickDrive extends Command {
         double turn = -1 * joystick.getX(); /* positive is right */
         boolean btn1 =joystick.getRawButton(1); /* is button is down, print joystick values */
 
-        /* deadband gamepad 10% */
+        /* 
+        //tolerance for deadband
+        
         if (Math.abs(forw) < 0.10) {
             forw = 0;
         }
         if (Math.abs(turn) < 0.10) {
             turn = 0;
         }
+*/
+        //using buttons to change sensitivity multiplier
+        double sensitivity = Robot.drive.normal; //default value
+
+        if(joystick.getRawButton(2)){
+            sensitivity = Robot.drive.slow;
+        }
+        if(joystick.getRawButton(3)){
+            sensitivity = Robot.drive.fast;
+        }
+
 
         /* drive robot */
-        Robot.drive.arcade(forw, turn);
+        Robot.drive.arcade(forw * sensitivity, turn * sensitivity);
 
         /*
          * [2] Make sure Gamepad Forward is positive for FORWARD, and GZ is positive for
